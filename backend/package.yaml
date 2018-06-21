@@ -1,6 +1,6 @@
-name:                localcooking-farm
+name:                localcooking-content
 version:             0.0.0
-git:                 "git://git.localcooking.com/localcooking/localcooking-farm.git"
+git:                 "git://git.localcooking.com/localcooking/localcooking-content.git"
 license:             BSD3
 author:              "Athan Clark"
 maintainer:          "athan.clark@localcooking.com"
@@ -55,7 +55,7 @@ library:
     - wai-transformers >= 0.1.0
 
 executables:
-  localcooking-farm:
+  localcooking-content:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
@@ -64,7 +64,7 @@ executables:
     - -Wall
     - -with-rtsopts=-N
     dependencies:
-    - localcooking-farm
+    - localcooking-content
     - localcooking-template
 
 tests:
@@ -77,7 +77,7 @@ tests:
     - -with-rtsopts=-N
     - -Wall
     dependencies:
-    - localcooking-farm
+    - localcooking-content
     - localcooking-db
     - localcooking-template
     - aeson

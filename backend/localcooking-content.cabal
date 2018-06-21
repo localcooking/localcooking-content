@@ -2,9 +2,9 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2595094dd37d22e9559da9bb79c3b110539db3d4c9c79b1954f61dd283c4e056
+-- hash: 4d285403d75aacc8afd7934ef25ef445ce15aa391d018fb741736e9b9981e731
 
-name:           localcooking-farm
+name:           localcooking-content
 version:        0.0.0
 description:    Please see the README on Github at <https://github.com/athanclark/localcooking#readme>
 author:         Athan Clark
@@ -21,7 +21,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: git://git.localcooking.com/localcooking/localcooking-farm.git
+  location: git://git.localcooking.com/localcooking/localcooking-content.git
 
 library
   exposed-modules:
@@ -30,7 +30,7 @@ library
       Server.Assets
       Server.HTTP
   other-modules:
-      Paths_localcooking_farm
+      Paths_localcooking_content
   hs-source-dirs:
       src
   ghc-options: -Wall
@@ -63,16 +63,16 @@ library
     , wai-transformers >=0.1.0
   default-language: Haskell2010
 
-executable localcooking-farm
+executable localcooking-content
   main-is: Main.hs
   other-modules:
-      Paths_localcooking_farm
+      Paths_localcooking_content
   hs-source-dirs:
       app
   ghc-options: -Wall -threaded -rtsopts -Wall -with-rtsopts=-N
   build-depends:
       base >=4.8 && <5
-    , localcooking-farm
+    , localcooking-content
     , localcooking-template
   default-language: Haskell2010
 
@@ -80,15 +80,15 @@ test-suite localcooking-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      Paths_localcooking_farm
+      Paths_localcooking_content
   hs-source-dirs:
       test
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N -Wall
   build-depends:
       aeson
     , base >=4.8 && <5
+    , localcooking-content
     , localcooking-db
-    , localcooking-farm
     , localcooking-template
     , path-extra
     , tasty
