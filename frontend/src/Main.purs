@@ -11,7 +11,7 @@ import Spec.Snackbar (messages)
 import LocalCooking.Types.ServerToClient (env)
 import LocalCooking.Main (defaultMain)
 import LocalCooking.Spec.Misc.Branding (mainBrand)
-import LocalCooking.Dependencies.Chef (chefDependencies, newChefQueues)
+import LocalCooking.Dependencies.Content (contentDependencies, newContentQueues)
 import LocalCooking.Global.Links.Internal (ImageLinks (Logo40Png))
 
 import Prelude
@@ -66,17 +66,17 @@ type Effects =
 
 main :: Eff Effects Unit
 main = do
-  log "Starting Local Cooking Chefs frontend..."
+  log "Starting Local Cooking Editors frontend..."
 
-  chefQueues <- newChefQueues
+  contentQueues <- newContentQueues
   siteErrorQueue <- One.newQueue
 
 
   defaultMain
     { env
     , palette
-    , siteQueues: chefQueues
-    , deps: chefDependencies
+    , siteQueues: contentQueues
+    , deps: contentDependencies
     , extraRedirect: \_ _ -> Nothing
     , leftDrawer:
       { buttons: drawersButtons
@@ -140,7 +140,7 @@ main = do
         )
         \{classes} ->
           button
-          { href: "https://farm.localcooking.com/"
+          { href: "https://content.localcooking.com/"
           , classes: Button.createClasses classes
           , variant: Button.raised
           }
@@ -150,7 +150,7 @@ main = do
             }
             [ mainBrand
             ]
-          , R.text " Farms"
+          , R.text " Contents"
           ]
       ]
     }
