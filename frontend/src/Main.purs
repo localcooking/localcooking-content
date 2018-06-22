@@ -206,5 +206,32 @@ main = do
             ]
           , R.text " Restaurants"
           ]
+      , R.text " "
+      , Button.withStyles
+        (\_ ->
+          { root: createStyles
+            { background: "#546e7a"
+            , color: "#fff"
+            , textTransform: "none"
+            , "&:hover":
+              { background: "#819ca9"
+              }
+            }
+          }
+        )
+        \{classes} ->
+          button
+          { href: "https://admin.localcooking.com/"
+          , classes: Button.createClasses classes
+          , variant: Button.raised
+          }
+          [ svgIcon
+            { viewBox: "0 0 279 279"
+            , color: SvgIcon.inherit
+            }
+            [ mainBrand
+            ]
+          , R.text " Admins"
+          ]
       ]
     }
