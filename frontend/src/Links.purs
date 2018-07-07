@@ -16,6 +16,7 @@ import Data.NonEmpty ((:|))
 import Text.Parsing.StringParser (Parser, try, runParser)
 import Text.Parsing.StringParser.String (char, string)
 import Control.Alternative ((<|>))
+import Control.Monad.Aff (Aff)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, warn)
 
@@ -136,8 +137,20 @@ instance localCookingSiteLinksSiteLinks :: LocalCookingSiteLinks SiteLinks UserD
   getUserDetailsLink link = case link of
     UserDetailsLink mDetails -> Just mDetails
     _ -> Nothing
-  toDocumentTitle _ = ""
   subsidiaryTitle _ = " Content"
+
+
+initToDocumentTitle :: SiteLinks -> String
+initToDocumentTitle _ = ""
+
+
+asyncToDocumentTitle :: forall eff
+                      . SiteLinks
+                     -> Aff eff String
+asyncToDocumentTitle link = pure (initToDocumentTitle link)
+
+
+
 
 
 -- Policy: don't fail on bad query params / fragment unless you have to
@@ -150,12 +163,8 @@ instance fromLocationSiteLinks :: FromLocation SiteLinks where
       siteLinksPathParser :: Parser SiteLinks
       siteLinksPathParser = do
         divider
-        let def = defaultSiteLinksPathParser userDetailsLinksParser
-            emailConfirm = do
-              void (string "emailConfirm")
-              pure EmailConfirmLink
-        try emailConfirm
-          <|> def
+        let def = defaultSiteLinksPathParser userDetailsLinksParser Nothing
+        def
         where
           divider = void (char '/')
         -- TODO put nonstandard parsers here

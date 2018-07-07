@@ -2,6 +2,7 @@ module Main where
 
 import Colors (palette)
 import User (UserDetails (..), PreUserDetails (..))
+import Links (initToDocumentTitle, asyncToDocumentTitle)
 import Spec.Topbar.Buttons (topbarButtons)
 import Spec.Drawers.Buttons (drawersButtons)
 import Spec.Content (content)
@@ -90,6 +91,9 @@ main = do
         contentDependencies contentQueues
         tagDependencies tagQueues
     , extraRedirect: \_ _ -> Nothing
+    , extraProcessing: \_ _ -> pure unit
+    , initToDocumentTitle
+    , asyncToDocumentTitle
     , leftDrawer:
       { buttons: drawersButtons
       }
@@ -108,7 +112,8 @@ main = do
           _ -> pure Nothing
       }
     , error:
-      { content: messages {siteErrorQueue: readOnly siteErrorQueue}
+      { content: messages
+      , queue: siteErrorQueue
       }
     , extendedNetwork:
       [ Button.withStyles
