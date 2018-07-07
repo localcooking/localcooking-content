@@ -1,7 +1,5 @@
 module Spec.Content.UserDetails.General where
 
-import Spec.Icons.NewPerson (newPerson)
-
 import Prelude
 
 import Thermite as T
@@ -32,7 +30,6 @@ spec = T.simpleSpec performAction render
         { variant: Typography.display1
         , align: Typography.center
         } [R.text "General"]
-      , newPerson
       ]
 
 

@@ -11,7 +11,7 @@ import Spec.Content.UserDetails.Buttons (userDetailsButtons)
 import Spec.Snackbar (messages)
 import LocalCooking.Types.ServerToClient (env)
 import LocalCooking.Main (defaultMain)
-import LocalCooking.Spec.Misc.Branding (mainBrand)
+import LocalCooking.Spec.Misc.Network (networkButton)
 import LocalCooking.Dependencies.Content (contentDependencies, newContentQueues)
 import LocalCooking.Dependencies.Tag (tagDependencies, newTagQueues, mountTagSearchQueues)
 import LocalCooking.Global.Links.Internal (ImageLinks (Logo40Png))
@@ -116,139 +116,46 @@ main = do
       , queue: siteErrorQueue
       }
     , extendedNetwork:
-      [ Button.withStyles
-        (\_ ->
-          { root: createStyles
-            { background: "#c62828"
-            , color: "#fff"
-            , textTransform: "none"
-            , "&:hover":
-              { background: "#ff5f52"
-              }
-            }
-          }
-        )
-        \{classes} ->
-          button
-          { href: "https://localcooking.com/"
-          , classes: Button.createClasses classes
-          , variant: Button.raised
-          }
-          [ svgIcon
-            { viewBox: "0 0 279 279"
-            , color: SvgIcon.inherit
-            }
-            [ mainBrand
-            ]
-          , R.text " Customers"
-          ]
+      [ networkButton
+        { dark: "#c62828"
+        , light: "#ff5f52"
+        , href: "https://localcooking.com/"
+        , label: "Customers"
+        }
       , R.text " "
-      , Button.withStyles
-        (\_ ->
-          { root: createStyles
-            { background: "#1565c0"
-            , color: "#fff"
-            , textTransform: "none"
-            , "&:hover":
-              { background: "#5e92f3"
-              }
-            }
-          }
-        )
-        \{classes} ->
-          button
-          { href: "https://chef.localcooking.com/"
-          , classes: Button.createClasses classes
-          , variant: Button.raised
-          }
-          [ svgIcon
-            { viewBox: "0 0 279 279"
-            , color: SvgIcon.inherit
-            }
-            [ mainBrand
-            ]
-          , R.text " Chefs"
-          ]
+      , networkButton
+        { dark: "#1565c0"
+        , light: "#5e92f3"
+        , href: "https://chef.localcooking.com/"
+        , label: "Chefs"
+        }
       , R.text " "
-      , Button.withStyles
-        (\_ ->
-          { root: createStyles
-            { background: "#1b5e20"
-            , color: "#fff"
-            , textTransform: "none"
-            , "&:hover":
-              { background: "#4c8c4a"
-              }
-            }
-          }
-        )
-        \{classes} ->
-          button
-          { href: "https://farm.localcooking.com/"
-          , classes: Button.createClasses classes
-          , variant: Button.raised
-          }
-          [ svgIcon
-            { viewBox: "0 0 279 279"
-            , color: SvgIcon.inherit
-            }
-            [ mainBrand
-            ]
-          , R.text " Farms"
-          ]
+      , networkButton
+        { dark: "#1b5e20"
+        , light: "#4c8c4a"
+        , href: "https://farm.localcooking.com/"
+        , label: "Farms"
+        }
       , R.text " "
-      , Button.withStyles
-        (\_ ->
-          { root: createStyles
-            { background: "#7b1fa2"
-            , color: "#fff"
-            , textTransform: "none"
-            , "&:hover":
-              { background: "#ae52d4"
-              }
-            }
-          }
-        )
-        \{classes} ->
-          button
-          { href: "https://restaurant.localcooking.com/"
-          , classes: Button.createClasses classes
-          , variant: Button.raised
-          }
-          [ svgIcon
-            { viewBox: "0 0 279 279"
-            , color: SvgIcon.inherit
-            }
-            [ mainBrand
-            ]
-          , R.text " Restaurants"
-          ]
+      , networkButton
+        { dark: "#7b1fa2"
+        , light: "#ae52d4"
+        , href: "https://restaurant.localcooking.com/"
+        , label: "Restaurants"
+        }
       , R.text " "
-      , Button.withStyles
-        (\_ ->
-          { root: createStyles
-            { background: "#546e7a"
-            , color: "#fff"
-            , textTransform: "none"
-            , "&:hover":
-              { background: "#819ca9"
-              }
-            }
-          }
-        )
-        \{classes} ->
-          button
-          { href: "https://admin.localcooking.com/"
-          , classes: Button.createClasses classes
-          , variant: Button.raised
-          }
-          [ svgIcon
-            { viewBox: "0 0 279 279"
-            , color: SvgIcon.inherit
-            }
-            [ mainBrand
-            ]
-          , R.text " Admins"
-          ]
+      , networkButton
+        { dark: "#725b53"
+        , light: "#d3b8ae"
+        , href: "https://blog.localcooking.com/"
+        , label: "Blog"
+        }
+      , R.text " "
+      , networkButton
+        { dark: "#546e7a"
+        , light: "#819ca9"
+        , href: "https://admin.localcooking.com/"
+        , label: "Admins"
+        }
       ]
     }
