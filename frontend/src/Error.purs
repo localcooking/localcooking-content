@@ -1,17 +1,17 @@
 module Error where
 
 
--- data CustomerError
---   = CustomerSaveFailed
---   | CustomerSaveSuccess
+data EditorError
+  = EditorSaveFailed
+  | EditorSaveSuccess
 
 
 data SiteError
-  -- = SiteErrorCustomer CustomerError
+  = SiteErrorEditor EditorError
 
 
 printSiteError :: SiteError -> String
-printSiteError e = "" -- case e of
-  -- SiteErrorCustomer cust -> case cust of
-  --   CustomerSaveFailed -> "Internal error - couldn't save customer details"
-  --   CustomerSaveSuccess -> "Customer details saved."
+printSiteError e = case e of
+  SiteErrorEditor cust -> case cust of
+    EditorSaveFailed -> "Internal error - couldn't save editor details"
+    EditorSaveSuccess -> "Editor details saved."

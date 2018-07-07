@@ -1,9 +1,11 @@
 module Spec.Content.UserDetails where
 
+import Error (SiteError (SiteErrorEditor), EditorError (..))
 import Links (SiteLinks (UserDetailsLink), UserDetailsLinks (..))
 import User (UserDetails)
 import Spec.Content.UserDetails.General (general)
 import LocalCooking.Thermite.Params (LocalCookingParams, LocalCookingState, LocalCookingAction, performActionLocalCooking, whileMountedLocalCooking, initLocalCookingState)
+import LocalCooking.Dependencies.Content (GetEditorSparrowClientQueues, SetEditorSparrowClientQueues)
 
 import Prelude
 import Data.Lens (Lens', Prism', lens, prism')
@@ -22,6 +24,8 @@ import Control.Monad.Eff.Exception (EXCEPTION)
 
 import IxSignal.Internal (IxSignal)
 import IxSignal.Internal as IxSignal
+import Queue.Types (WRITE)
+import Queue.One as One
 
 
 
@@ -49,8 +53,16 @@ getLCState = lens (_.localCooking) (_ { localCooking = _ })
 
 spec :: forall eff
       . LocalCookingParams SiteLinks UserDetails (Effects eff)
+     -> { getEditorQueues :: GetEditorSparrowClientQueues (Effects eff)
+        , setEditorQueues :: SetEditorSparrowClientQueues (Effects eff)
+        , siteErrorQueue :: One.Queue (write :: WRITE) (Effects eff) SiteError
+        }
      -> T.Spec (Effects eff) State Unit Action
-spec params@{siteLinks} = T.simpleSpec performAction render
+spec params@{siteLinks}
+  { getEditorQueues
+  , setEditorQueues
+  , siteErrorQueue
+  } = T.simpleSpec performAction render
   where
     performAction action props state = case action of
       LocalCookingAction a -> performActionLocalCooking getLCState a props state
@@ -60,9 +72,11 @@ spec params@{siteLinks} = T.simpleSpec performAction render
       [ case state.localCooking.currentPage of -- TODO pack currentPageSignal listener to this level, so
                             -- side buttons aren't redrawn
           UserDetailsLink mUserDetails -> case mUserDetails of
-            Nothing -> general
+            Nothing -> general params
+              {getEditorQueues,setEditorQueues,siteErrorQueue}
             Just x -> case x of
-              UserDetailsGeneralLink -> general
+              UserDetailsGeneralLink -> general params
+                {getEditorQueues,setEditorQueues,siteErrorQueue}
               _ -> R.text ""
           _ -> R.text ""
       ]
@@ -70,11 +84,15 @@ spec params@{siteLinks} = T.simpleSpec performAction render
 
 userDetails :: forall eff
              . LocalCookingParams SiteLinks UserDetails (Effects eff)
+            -> { getEditorQueues :: GetEditorSparrowClientQueues (Effects eff)
+               , setEditorQueues :: SetEditorSparrowClientQueues (Effects eff)
+               , siteErrorQueue :: One.Queue (write :: WRITE) (Effects eff) SiteError
+               }
             -> R.ReactElement
-userDetails params =
+userDetails params args =
   let {spec: reactSpec, dispatcher} =
         T.createReactSpec
-          ( spec params
+          ( spec params args
           ) (initialState (unsafePerformEff (initLocalCookingState params)))
       reactSpec' =
         whileMountedLocalCooking

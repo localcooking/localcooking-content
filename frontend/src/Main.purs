@@ -104,7 +104,11 @@ main = do
     , content: content
     , userDetails:
       { buttons: userDetailsButtons
-      , content: userDetails
+      , content: \params -> userDetails params
+        { getEditorQueues: contentQueues.getEditorQueues
+        , setEditorQueues: contentQueues.setEditorQueues
+        , siteErrorQueue: writeOnly siteErrorQueue
+        }
       , obtain: \{user} -> do
         PreUserDetails mUser <- sequential $ PreUserDetails <$> user
         case mUser of
